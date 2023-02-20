@@ -1,64 +1,59 @@
-import React from 'react'
-import './index.css';
-import image from "../../assets/photo-1542291026-7eec264c27ff.jfif"
+import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "../../slices/productSlice";
+import { Status } from "../../slices/productSlice";
+import { addtoCart } from "../../slices/CartSlice";
+import "./index.css";
 
-const Cards = ({data}) => {
+const Cards = () => {
+  const { products, status } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
 
-    // console.log("product",data)
+  useEffect(() => {
+    dispatch(fetchData());
+  }, []);
+
+  if (status === Status.loading) {
+    return <h3>loading...</h3>;
+  }
+  if (status === Status.error) {
+    return <h3>Something went Wrong</h3>;
+  }
+  const handleClick = (product) => {
+    const item = {
+      product: product,
+      quantity: 1,
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      brand: product.brand,
+      description: product.description,
+      image: product.thumbnail,
+      category: product.category,
+    };
+    dispatch(addtoCart(item));
+  };
+
   return (
     <>
-    {
-        data.map((curLem)=>{
-            return(
-                <>
-                <div className='card' key={curLem.id}>
-        <img src={curLem.thumbnail} alt='product-img'/>
-        <h2>{curLem.title}</h2>
-        <h4>Brand: {curLem.brand}</h4>
-        <h4>Category:{curLem.category}</h4>
-        <p>{curLem.description}</p>
-        <p>Price :{curLem.price}</p>
-        <button>add to cart</button>
-    </div>
-                </>
-            )
-        })
-    }
+      {products.map((curLem, index) => {
+        const { thumbnail, title, brand, price, description, id, category } =
+          curLem;
+        return (
+          <div className="card" key={id + index}>
+            <img src={thumbnail} alt="product-img" />
+            <h2>{title}</h2>
+            <h4>Brand: {brand}</h4>
+            <h4>Category:{category}</h4>
+            <p>{description}</p>
+            <p>Price :{price}</p>
+            <button onClick={() => handleClick(curLem)}>add to cart</button>
+          </div>
+        );
+      })}
     </>
-  )
-}
+  );
+};
 
-export default Cards
-// brand
-// : 
-// "Apple"
-// category
-// : 
-// "smartphones"
-// description
-// : 
-// "An apple mobile which is nothing like apple"
-// discountPercentage
-// : 
-// 12.96
-// id
-// : 
-// 1
-// images
-// : 
-// (5) ['https://i.dummyjson.com/data/products/1/1.jpg', 'https://i.dummyjson.com/data/products/1/2.jpg', 'https://i.dummyjson.com/data/products/1/3.jpg', 'https://i.dummyjson.com/data/products/1/4.jpg', 'https://i.dummyjson.com/data/products/1/thumbnail.jpg']
-// price
-// : 
-// 549
-// rating
-// : 
-// 4.69
-// stock
-// : 
-// 94
-// thumbnail
-// : 
-// "https://i.dummyjson.com/data/products/1/thumbnail.jpg"
-// title
-// : 
-// "iPhone 9"
+export default Cards;
