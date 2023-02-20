@@ -1,0 +1,16 @@
+.product-cart{
+    /* background-color: red; */
+    width: 60%;
+    height: fit-content;
+    margin-bottom: 10px;
+    border: 1px solid black;
+}
+.product-cart img{
+    width: 100%;
+    height: 200px;
+}
+.cart-product{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+}
