@@ -22,7 +22,6 @@ const Cards = () => {
   }
   const handleClick = (product) => {
     const item = {
-      product: product,
       quantity: 1,
       id: product.id,
       title: product.title,
@@ -32,6 +31,7 @@ const Cards = () => {
       image: product.thumbnail,
       category: product.category,
     };
+    // localStorage.setItem(`products`, JSON.stringify(item));
     dispatch(addtoCart(item));
   };
 
