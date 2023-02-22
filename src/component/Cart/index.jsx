@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import { useDispatch, useSelector } from "react-redux";
-import { removeItem } from "../../slices/CartSlice";
+import { removeItem, addProduct, decProduct } from "../../slices/CartSlice";
 
 const Cart = () => {
   const products = useSelector((state) => state.cart.data);
+  // console.log(products);
   const dispatch = useDispatch();
 
   const handleClick = (cart) => {
     dispatch(removeItem(cart));
+  };
+  const addProducts = (quantity) => {
+    dispatch(addProduct(quantity));
+  };
+  const minusProduct = (decrease) => {
+    dispatch(decProduct(decrease));
   };
   return (
     <div className="cart-product">
@@ -23,7 +30,10 @@ const Cart = () => {
               <p>{curLem.description}</p>
               <p>Price :{curLem.price}</p>
               <p>quantity :{curLem.quantity}</p>
+              <p>inStock :{curLem.stock}</p>
               <button onClick={() => handleClick(curLem.id)}>remove</button>
+              <button onClick={() => addProducts(curLem.id)}>+</button>
+              <button onClick={() => minusProduct(curLem.id)}>-</button>
             </div>
           ))}
         </>

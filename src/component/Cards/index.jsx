@@ -30,6 +30,7 @@ const Cards = () => {
       description: product.description,
       image: product.thumbnail,
       category: product.category,
+      stock: product.stock,
     };
     // localStorage.setItem(`products`, JSON.stringify(item));
     dispatch(addtoCart(item));
@@ -38,8 +39,16 @@ const Cards = () => {
   return (
     <>
       {products.map((curLem, index) => {
-        const { thumbnail, title, brand, price, description, id, category } =
-          curLem;
+        const {
+          thumbnail,
+          title,
+          brand,
+          price,
+          description,
+          id,
+          category,
+          stock,
+        } = curLem;
         return (
           <div className="card" key={id + index}>
             <img src={thumbnail} alt="product-img" />
@@ -48,6 +57,7 @@ const Cards = () => {
             <h4>Category:{category}</h4>
             <p>{description}</p>
             <p>Price :{price}</p>
+            <p>inStock: {stock}</p>
             <button onClick={() => handleClick(curLem)}>add to cart</button>
           </div>
         );
